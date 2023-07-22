@@ -199,8 +199,8 @@ export default function Calender() {
                         value={calendarValue}
                         onChange={handleOpenNoteArea}
                         onMonthChange={handleMonthChange}
-                        loading={isCalendarLoading}
-                        renderLoading={() => <DayCalendarSkeleton />}
+                        // loading={isCalendarLoading}
+                        // renderLoading={() => <DayCalendarSkeleton />}
                         showDaysOutsideCurrentMonth
                         fixedWeekNumber={6}
                         slots={{
