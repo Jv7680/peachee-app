@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  padding: 8px 0;
+  height: 100vh;
+}
+
+html {
+  font-size: 20px;
+}
+
+// 
+// @media only screen and (min-width: 300px) and (max-width: 740px) {
+//   html {
+//     font-size: 20px;
+//   }
+// }
+
+// @media only screen and (min-width: 1024px) {
+//   html {
+//     font-size: 30px;
+//   }
+// }
