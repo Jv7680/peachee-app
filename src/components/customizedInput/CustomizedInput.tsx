@@ -23,7 +23,7 @@ export default function CustomizedInput(props: CustomizedInputProps) {
     const classes = useStyles();
 
     const handleChange = (event: any) => {
-        const name: string = event.target.name || "classNumber";
+        const name: string = event.target.name || "moneyEachClass";
         console.log(event.target.value);
         const value = +(event.target.value.replaceAll("đ", "").replaceAll(" ", "").replaceAll(".", "").trim() || "0");
         console.log(value);
@@ -33,12 +33,7 @@ export default function CustomizedInput(props: CustomizedInputProps) {
             const newPrev = [...prev];
             const itemChange = newPrev[sttChange - 1];
 
-            if (name === "hour" || name === "minute") {
-                itemChange.timeEachClass[name] = value;
-                return newPrev;
-            }
-
-            if (name === "classNumber" || name === "moneyEachClass") {
+            if (name === "moneyEachClass") {
                 itemChange[name] = value;
                 return newPrev;
             }
@@ -54,12 +49,7 @@ export default function CustomizedInput(props: CustomizedInputProps) {
             const newPrev = [...prev];
             const itemChange = newPrev[sttChange - 1];
 
-            if (name === "hour" || name === "minute") {
-                itemChange.timeEachClass[name] += step;
-                return newPrev;
-            }
-
-            if (name === "classNumber" || name === "moneyEachClass") {
+            if (name === "moneyEachClass") {
                 itemChange[name] += step;
                 return newPrev;
             }
@@ -75,12 +65,7 @@ export default function CustomizedInput(props: CustomizedInputProps) {
             const newPrev = [...prev];
             const itemChange = newPrev[sttChange - 1];
 
-            if (name === "hour" || name === "minute") {
-                itemChange.timeEachClass[name] -= step;
-                return newPrev;
-            }
-
-            if (name === "classNumber" || name === "moneyEachClass") {
+            if (name === "moneyEachClass") {
                 itemChange[name] -= step;
                 return newPrev;
             }
@@ -124,6 +109,11 @@ const useStyles = makeStyles({
     root: {
         position: 'relative',
         display: "inline-flex",
+        borderRadius: 4,
+
+        "&:hover input": {
+            border: '1px solid',
+        },
 
         "& input": {
             width: "calc(100% - 22px)",
@@ -133,6 +123,11 @@ const useStyles = makeStyles({
             textAlign: 'center',
             background: '#fff',
             padding: 0,
+            borderTopLeftRadius: 4,
+            borderBottomLeftRadius: 4,
+        },
+        "& input:focus": {
+            border: "1px solid #4884cd"
         },
         "& .btn-up, & .btn-down": {
             display: 'flex',
@@ -164,24 +159,3 @@ const useStyles = makeStyles({
         },
     },
 });
-
-// const useStyles = makeStyles({
-//     root: {
-//         "& .ant-input-number-handler-wrap": {
-//             opacity: 1,
-//         },
-//         "& .ant-input-number-handler:hover": {
-//             height: "40%",
-//         },
-//         "& .ant-input-number-group-addon": {
-//             minWidth: 114,
-//         },
-//         "& .ant-input-number-input": {
-//             textAlign: "center",
-//             padding: "0 22px 0 0",
-//         },
-//         "& .ant-input-number-group-wrapper": {
-//             width: "100%",
-//         },
-//     },
-// });

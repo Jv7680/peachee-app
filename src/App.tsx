@@ -30,6 +30,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     height: "100vh",
+    overflowX: "hidden",
 
     "& .paper-statistic": {
       flex: 1,

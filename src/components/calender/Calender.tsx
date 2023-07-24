@@ -15,13 +15,23 @@ import Badge from '@mui/material/Badge';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { isObjectEqual } from "../../utils/functions/functionUtils";
+import { TimeField } from '@mui/x-date-pickers/TimeField';
+import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import CancelSharpIcon from '@mui/icons-material/CancelSharp';
+import RadioButtonUncheckedSharpIcon from '@mui/icons-material/RadioButtonUncheckedSharp';
+import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
 
 export interface ClassNoteArrValueItem {
     stt: number;
-    classNumber: number;
-    timeEachClass: {
-        hour: number;
-        minute: number;
+    className: string;
+    attendance: "check" | "noCheck" | "nothing";
+    timeRangeEachClass: {
+        from: string | null;
+        to: string | null;
     };
     moneyEachClass: number;
 };
@@ -29,8 +39,7 @@ export interface ClassNoteArrValueItem {
 function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }) {
     const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
 
-    const isSelected =
-        !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
+    const isSelected = !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
 
     return (
         <Badge
@@ -45,7 +54,8 @@ function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] 
 }
 
 let inserted: boolean = false;
-let isFetching: boolean = false;
+let classNoteArrValueBackup: ClassNoteArrValueItem[] = [];
+let noteValueBackup: string = "";
 export default function Calender() {
     const [moneySumNumber, setMoneySumNumber] = useState<number>(0);
     const [noteValue, setNoteValue] = useState<string>("");
@@ -54,46 +64,73 @@ export default function Calender() {
     const [isCalendarLoading, setIsCalendarLoading] = useState<boolean>(false);
     const [isBtnSaveLoading, setIsBtnSaveCalendarLoading] = useState<boolean>(false);
     const [isNewNote, setIsNewNote] = useState<boolean>(false);
-    const [highlightedDays, setHighlightedDays] = useState<number[]>([1, 2, 15]);
+    const [highlightedDays, setHighlightedDays] = useState<number[]>([]);
+
+    const [fromTimeValue, setFromTimeValue] = useState<Dayjs | null>(null);
+    const [toTimeValue, settoTimeValue] = useState<Dayjs | null>(null);
 
     useEffect(() => {
         const noteAreaClassNote = document.getElementsByClassName("noteArea__class-note")[0];
         noteAreaClassNote?.scrollTo(0, noteAreaClassNote.scrollHeight);
 
         updateMoneySum();
+        console.log(classNoteArrValue);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classNoteArrValue]);
 
     useEffect(() => {
         fecthDataCalendar();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [calendarValue]);
 
     useEffect(() => {
-        !isFetching && !isCalendarLoading && !isBtnSaveLoading && setIsNewNote(true);
-        console.log("isNew", isNewNote);
+        console.log("isNewNote", isNewNote);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isNewNote]);
+
+    useEffect(() => {
+        console.log(JSON.stringify(classNoteArrValue));
+        console.log(JSON.stringify(classNoteArrValueBackup));
+        console.log(classNoteArrValue[0] === classNoteArrValueBackup[0]);
+        console.log(JSON.stringify(classNoteArrValue) === JSON.stringify(classNoteArrValueBackup));
+        if (!isObjectEqual(classNoteArrValue, classNoteArrValueBackup) || noteValue !== noteValueBackup) {
+            setIsNewNote(true);
+        }
+        else {
+            setIsNewNote(false);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [classNoteArrValue, noteValue]);
 
     const fecthDataCalendar = async () => {
-        isFetching = true;
         setIsCalendarLoading(true);
         const result: ResponseData<string | null> = await APIService.get(`api/v1/data/get-by-day-month-year?day=${calendarValue.date()}&month=${calendarValue.month() + 1}&year=${calendarValue.year()}`);
         if (result.data) {
             inserted = true;
             const newData = JSON.parse(result.data);
-            console.log(newData);
+
             setClassNoteArrValue(newData.classNoteArrValue);
+            classNoteArrValueBackup = JSON.parse(JSON.stringify(newData.classNoteArrValue));
+
             setNoteValue(newData.noteValue);
+            noteValueBackup = newData.noteValue;
         }
         else {
             inserted = false;
             setClassNoteArrValue([]);
+            classNoteArrValueBackup = [];
+
             setNoteValue("");
+            noteValueBackup = "";
         }
 
         await fecthHighlightedDays(calendarValue);
 
         setIsCalendarLoading(false);
         setIsNewNote(false);
-        isFetching = false;
     };
 
     const fecthHighlightedDays = async (value: Dayjs) => {
@@ -110,8 +147,11 @@ export default function Calender() {
         const paperNote = document.getElementsByClassName("paper-note")[0] as HTMLDivElement;
         // noteArea && noteArea.style.width = "0px";
         if (paperNote) {
-            paperNote.style.width = "0px";
+            // paperNote.style.width = "0px";
+
             paperNote.style.marginRight = "0px";
+            paperNote.style.marginLeft = "-40%";
+            paperNote.style.transform = "translateX(100%)";
             paperNote.style.opacity = "0";
         }
     };
@@ -124,8 +164,11 @@ export default function Calender() {
         const paperNote = document.getElementsByClassName("paper-note")[0] as HTMLDivElement;
         // noteArea && noteArea.style.width = "0px";
         if (paperNote) {
-            paperNote.style.width = "30%";
+            // paperNote.style.width = "30%";
+
             paperNote.style.marginRight = "8px";
+            paperNote.style.marginLeft = "0px";
+            paperNote.style.transform = "translateX(0)";
             paperNote.style.opacity = "1";
         }
     };
@@ -133,7 +176,7 @@ export default function Calender() {
     const updateMoneySum = () => {
         let moneySum: number = 0;
         classNoteArrValue.forEach((item) => {
-            moneySum += item.classNumber * item.moneyEachClass;
+            moneySum += item.moneyEachClass;
         });
 
         setMoneySumNumber(moneySum);
@@ -142,10 +185,11 @@ export default function Calender() {
     const getEmptyRow = (stt: number): ClassNoteArrValueItem => {
         return {
             stt: stt,
-            classNumber: 0,
-            timeEachClass: {
-                hour: 0,
-                minute: 0,
+            className: "",
+            attendance: "nothing",
+            timeRangeEachClass: {
+                from: null,
+                to: null,
             },
             moneyEachClass: 0,
         }
@@ -188,6 +232,46 @@ export default function Calender() {
         setIsCalendarLoading(true);
         await fecthHighlightedDays(value);
         setIsCalendarLoading(false);
+    };
+
+    const handleSelectTime = (sttChange: number, value: Dayjs | string | null, timeType: "from" | "to") => {
+        setClassNoteArrValue((prev: ClassNoteArrValueItem[]) => {
+            const newPrev = [...prev];
+            const newValue = JSON.stringify(value).replaceAll('"', "");
+            const itemChange = newPrev[sttChange - 1];
+
+            timeType === "from" ? itemChange.timeRangeEachClass.from = newValue : itemChange.timeRangeEachClass.to = newValue;
+
+            return newPrev;
+        });
+    };
+
+    const handleChangeClassName = (sttChange: number, event: any) => {
+        console.log("event", event);
+
+        setClassNoteArrValue((prev: ClassNoteArrValueItem[]) => {
+            const newPrev = [...prev];
+            // const newValue = JSON.stringify(value).replaceAll('"', "");
+            const itemChange = newPrev[sttChange - 1];
+
+            itemChange.className = event.target.value.trim();
+
+            return newPrev;
+        });
+    };
+
+    const handleChangeAttendance = (sttChange: number, event: any) => {
+        console.log("event", event);
+
+        setClassNoteArrValue((prev: ClassNoteArrValueItem[]) => {
+            const newPrev = [...prev];
+            // const newValue = JSON.stringify(value).replaceAll('"', "");
+            const itemChange = newPrev[sttChange - 1];
+
+            itemChange.attendance = event.target.value;
+
+            return newPrev;
+        });
     };
 
     const classes = useStyles();
@@ -279,9 +363,10 @@ export default function Calender() {
                             <tbody>
                                 <tr style={{ backgroundColor: "rgb(133 188 255)", height: 30 }}>
                                     <th>STT</th>
-                                    <th>Số buổi</th>
-                                    <th>Thời lượng 1 buổi</th>
-                                    <th>Lương 1 buổi</th>
+                                    <th>Tên lớp</th>
+                                    <th>Điểm danh</th>
+                                    <th>Thời gian</th>
+                                    <th>Thành tiền</th>
                                 </tr>
                                 {
                                     classNoteArrValue.length > 0 &&
@@ -290,34 +375,73 @@ export default function Calender() {
                                             <tr key={index} style={{ boxShadow: index !== 0 ? "0px -1px 0px #b8d8ff" : "unset", height: 50 }}>
                                                 <td>{item.stt}</td>
                                                 <td>
-                                                    <CustomizedInput
-                                                        name="classNumber"
-                                                        value={item.classNumber}
-                                                        width={54}
-                                                        height={30}
-                                                        onChange={setClassNoteArrValue}
-                                                        stt={item.stt}
+                                                    <TextField
+                                                        value={item.className}
+                                                        onChange={(event) => { handleChangeClassName(item.stt, event) }}
+                                                        variant="outlined"
+                                                        size="small"
                                                     />
                                                 </td>
                                                 <td>
-                                                    <CustomizedInput
-                                                        name="hour"
-                                                        value={item.timeEachClass.hour}
-                                                        width={54}
-                                                        height={30}
-                                                        onChange={setClassNoteArrValue}
-                                                        stt={item.stt}
+                                                    {/* <Checkbox
+                                                        checked={item.attendance === null ? false : item.attendance}
+                                                        onChange={(event) => { handleChangeAttendance(item.stt, event) }}
+                                                        size="small"
+                                                        color="success"
+                                                        icon={<RadioButtonUncheckedSharpIcon />}
+                                                        checkedIcon={<CheckCircleSharpIcon />}
                                                     />
-                                                    {" : "}
-                                                    <CustomizedInput
-                                                        name="minute"
-                                                        value={item.timeEachClass.minute}
-                                                        width={54}
-                                                        height={30}
-                                                        onChange={setClassNoteArrValue}
-                                                        stt={item.stt}
-                                                        step={15}
-                                                    />
+                                                    <Checkbox
+                                                        checked={item.attendance === null ? false : !item.attendance}
+                                                        onChange={(event) => { handleChangeAttendance(item.stt, event) }}
+                                                        size="small"
+                                                        color="error"
+                                                        icon={<RadioButtonUncheckedSharpIcon />}
+                                                        checkedIcon={<CancelSharpIcon />}
+                                                    /> */}
+                                                    <FormGroup style={{ flexDirection: "row", justifyContent: "center" }}>
+                                                        <FormControlLabel
+                                                            value={"check"}
+                                                            control={<Checkbox
+                                                                checked={item.attendance === "check"}
+                                                                onChange={(event) => { handleChangeAttendance(item.stt, event) }}
+                                                                size="small"
+                                                                color="success"
+                                                                icon={<RadioButtonUncheckedSharpIcon />}
+                                                                checkedIcon={<CheckCircleSharpIcon />}
+                                                            />}
+                                                            label=""
+                                                        />
+                                                        <FormControlLabel
+                                                            value={"noCheck"}
+                                                            control={<Checkbox
+                                                                checked={item.attendance === "noCheck"}
+                                                                onChange={(event) => { handleChangeAttendance(item.stt, event) }}
+                                                                size="small"
+                                                                color="error"
+                                                                icon={<RadioButtonUncheckedSharpIcon />}
+                                                                checkedIcon={<CancelSharpIcon />}
+                                                            />}
+                                                            label=""
+                                                        />
+                                                    </FormGroup>
+                                                </td>
+                                                <td>
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <TimeField
+                                                            ampm={false}
+                                                            size="small"
+                                                            value={item.timeRangeEachClass.from}
+                                                            onChange={(newValue) => { handleSelectTime(item.stt, newValue, "from") }}
+                                                        />
+                                                        <span style={{ position: "relative", top: 4 }}>&nbsp;&#8211;&nbsp;</span>
+                                                        <TimeField
+                                                            ampm={false}
+                                                            size="small"
+                                                            value={item.timeRangeEachClass.to}
+                                                            onChange={(newValue) => { handleSelectTime(item.stt, newValue, "to") }}
+                                                        />
+                                                    </LocalizationProvider>
                                                 </td>
                                                 <td>
                                                     <CustomizedInput
@@ -336,7 +460,7 @@ export default function Calender() {
                                     })
                                 }
                                 <tr style={{ height: 20 }}>
-                                    <td colSpan={4}>
+                                    <td colSpan={5}>
                                         <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", padding: '4px 0', position: "relative" }}>
                                             {
                                                 classNoteArrValue.length > 0 &&
@@ -399,11 +523,36 @@ const useStyles = makeStyles({
             marginLeft: 8,
         },
         "& .paper-note": {
-            width: "30%",
+            width: "40%",
             marginRight: 8,
             overflowX: "hidden",
             position: "relative",
-            transition: "width 0.3s ease-in-out, margin 0.3s ease-in-out",
+            transition: "all 0.3s ease-in-out",
+        },
+
+        "& .MuiFormControl-root.MuiTextField-root": {
+            width: 90,
+            "& input": {
+                textAlign: "center",
+            },
+            "& .MuiInputBase-root.MuiOutlinedInput-root": {
+                fontSize: '0.75rem',
+                height: '30px',
+            }
+        },
+
+        "& .MuiFormControlLabel-root.MuiFormControlLabel-labelPlacementEnd": {
+            margin: 0,
+        },
+
+        "& .MuiButtonBase-root.MuiCheckbox-root": {
+            padding: 4,
+        },
+        "& .MuiCheckbox-colorError svg": {
+            color: "red",
+        },
+        "& .MuiCheckbox-colorSuccess svg": {
+            color: "green",
         },
 
         "& .MuiDateCalendar-root, & .MuiYearCalendar-root": {
