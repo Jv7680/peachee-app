@@ -1,0 +1,91 @@
+// @media only screen and (min-width: 800px) and (max-width: 1120px) {
+
+//     /* Force table to not be like tables anymore */
+//     table,
+//     thead,
+//     tbody,
+//     th,
+//     td,
+//     tr {
+//         display: block;
+//     }
+
+//     /* Hide table headers (but not display: none;, for accessibility) */
+//     thead tr {
+//         position: absolute;
+//         top: -9999px;
+//         left: -9999px;
+//     }
+
+//     tr {
+//         border: 1px solid #4096ff;
+//         height: auto !important;
+//         background-color: #f8f8f8;
+//         padding: 4px;
+//         margin-bottom: 12px;
+//         border-bottom: 3px solid #85bbfd;
+//         box-shadow: unset;
+//     }
+
+//     td {
+//         /* Behave  like a "row" */
+//         border: none;
+//         border-bottom: 1px solid #4096ffad;
+//         position: relative;
+//         padding: 6px 6px 6px 30%;
+//     }
+
+//     td:last-child {
+//         border-bottom: unset;
+//     }
+
+//     td:before {
+//         position: absolute;
+//         top: 50%;
+//         left: 16px;
+//         width: 90px;
+//         padding-right: 10px;
+//         white-space: nowrap;
+//         text-align: left;
+//         font-weight: bold;
+//         transform: translateY(-50%);
+//         -webkit-transform: translateY(-50%);
+//         -moz-transform: translateY(-50%);
+//         -ms-transform: translateY(-50%);
+//         -o-transform: translateY(-50%);
+//     }
+
+//     tr {
+//         & td:nth-of-type(1):before {
+//             content: "STT";
+//         }
+
+//         & td:nth-of-type(2):before {
+//             content: "Tên lớp";
+//         }
+
+//         & td:nth-of-type(3):before {
+//             content: "Điểm danh";
+//         }
+
+//         & td:nth-of-type(4):before {
+//             content: "Thời gian";
+//         }
+
+//         & td:nth-of-type(5):before {
+//             content: "Thành tiền";
+//         }
+//     }
+// }
+
+// @media only screen and (max-width: 799px) {
+//     .paper-calendar {
+//         width: 0px !important;
+//         flex: 0 !important;
+//         margin-right: 0px !important;
+//     }
+
+//     .paper-note {
+//         width: 100% !important;
+//     }
+// }

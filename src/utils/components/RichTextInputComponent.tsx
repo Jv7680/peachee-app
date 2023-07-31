@@ -11,6 +11,7 @@ interface RichTextInputComponentProps {
   value: any;
   touched?: any;
   readOnly?: boolean;
+  disabled?: boolean;
 };
 
 export default function RichTextInputComponent(props: RichTextInputComponentProps) {
@@ -33,9 +34,13 @@ export default function RichTextInputComponent(props: RichTextInputComponentProp
 
         },
         "& .ql-editor": {
-          minHeight: 200,
-          // maxHeight: 600,
           overflow: "auto",
+          margin: '12px 5px 12px 15px',
+          padding: "0 8px 0 0",
+          height: 410,
+          "@media only screen and (max-width: 510px)": {
+            height: 386,
+          }
         },
       },
     },
@@ -88,7 +93,7 @@ export default function RichTextInputComponent(props: RichTextInputComponentProp
         modules={modules}
         formats={formats}
         placeholder={props.placeholder}
-        readOnly={props.readOnly}
+        readOnly={props.disabled}
       />
     </div>
   );

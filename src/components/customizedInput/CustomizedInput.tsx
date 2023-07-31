@@ -1,6 +1,6 @@
 
 import { makeStyles } from "@mui/styles";
-import { ClassNoteArrValueItem } from "../calender/Calender";
+import { TableRowData } from "../modals/note-modal/NoteModal";
 import { formatNumberToVND } from "../../utils/functions/functionUtils";
 
 interface CustomizedInputProps {
@@ -12,12 +12,14 @@ interface CustomizedInputProps {
     step?: number;
     disabled?: boolean;
     readOnly?: boolean;
-    width?: number;
+    width?: number | string;
     height?: number;
     name?: string;
     stt?: number;
     VND?: boolean;
 };
+
+interface ClassNoteArrValueItem extends TableRowData { };
 
 export default function CustomizedInput(props: CustomizedInputProps) {
     const classes = useStyles();
@@ -31,7 +33,7 @@ export default function CustomizedInput(props: CustomizedInputProps) {
 
         props.onChange((prev: ClassNoteArrValueItem[]) => {
             const newPrev = [...prev];
-            const itemChange = newPrev[sttChange - 1];
+            const itemChange = newPrev[prev.findIndex(item => item.stt === sttChange)];
 
             if (name === "moneyEachClass") {
                 itemChange[name] = value;
@@ -47,7 +49,7 @@ export default function CustomizedInput(props: CustomizedInputProps) {
 
         props.onChange((prev: ClassNoteArrValueItem[]) => {
             const newPrev = [...prev];
-            const itemChange = newPrev[sttChange - 1];
+            const itemChange = newPrev[prev.findIndex(item => item.stt === sttChange)];
 
             if (name === "moneyEachClass") {
                 itemChange[name] += step;
@@ -63,7 +65,7 @@ export default function CustomizedInput(props: CustomizedInputProps) {
 
         props.onChange((prev: ClassNoteArrValueItem[]) => {
             const newPrev = [...prev];
-            const itemChange = newPrev[sttChange - 1];
+            const itemChange = newPrev[prev.findIndex(item => item.stt === sttChange)];
 
             if (name === "moneyEachClass") {
                 itemChange[name] -= step;
@@ -84,6 +86,7 @@ export default function CustomizedInput(props: CustomizedInputProps) {
                     // width: props.width || 40,
                     height: props.height || 40
                 }}
+                disabled={props.disabled}
             />
             <div className="btn-controll">
                 <div
@@ -121,13 +124,13 @@ const useStyles = makeStyles({
             border: '1px solid #e1e1e1',
             color: '#242424',
             textAlign: 'center',
-            background: '#fff',
+            background: 'transparent',
             padding: 0,
             borderTopLeftRadius: 4,
             borderBottomLeftRadius: 4,
         },
         "& input:focus": {
-            border: "1px solid #4884cd"
+            border: "2px solid #4884cd"
         },
         "& .btn-up, & .btn-down": {
             display: 'flex',

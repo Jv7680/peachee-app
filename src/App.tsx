@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
-import APIService from './services/ApiService';
-import Calender from './components/calender/Calender';
-import Paper from '@mui/material/Paper';
 import { makeStyles } from "@mui/styles";
+import { useEffect } from 'react';
+import Calender from './components/calender/Calender';
+import APIService from './services/ApiService';
 
-
-// import './App.css';
 import './App.scss';
 
 export default function App() {
@@ -18,9 +15,6 @@ export default function App() {
   return (
     <div className={"App " + classes.root}>
       <Calender></Calender>
-      {/* <Paper className="paper-statistic" elevation={3}>
-        <h3>Thống kê tháng XXX</h3>
-      </Paper> */}
     </div>
   );
 }

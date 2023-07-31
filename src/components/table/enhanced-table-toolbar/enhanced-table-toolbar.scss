@@ -1,0 +1,18 @@
+.enhanced-table-toolbar {
+    & .btn-delete {
+        color: #f44336;
+    }
+
+    & .btn-add {
+        color: #3cbd43;
+    }
+
+    & .btn-save,
+    & .MuiCircularProgress-root {
+        color: #b736cd;
+    }
+
+    & .btn-reset {
+        color: #e5d011;
+    }
+}

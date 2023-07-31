@@ -1,0 +1,116 @@
+.note-modal {
+    & .MuiBox-root {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 56px;
+    }
+
+    & .MuiTableContainer-root {
+        flex: 1;
+        border-radius: 4px;
+
+        & .MuiTableHead-root {
+            & .MuiTableRow-root {
+                background-color: rgb(133, 188, 255);
+
+                & span {
+                    font-size: 0.75rem;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        & .MuiTableBody-root {
+            & .MuiTableRow-root:not(:last-child) {
+                box-shadow: 0px 1px 0px #b8d8ff;
+            }
+
+            & .MuiTableCell-root.MuiTableCell-body {
+                border-bottom: unset;
+                font-size: 0.75rem;
+            }
+        }
+    }
+
+    & .MuiTabs-root {
+        margin-bottom: 12px;
+
+        & button {
+            padding: 0 8px;
+            font-size: 0.85rem;
+            text-transform: none;
+        }
+    }
+
+    & .money-sum {
+        position: absolute;
+        bottom: 0;
+        left: 12px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        font-size: 0.85rem;
+        font-style: italic;
+        z-index: 2;
+
+        & span {
+            font-weight: bold;
+
+            & span {
+                font-weight: initial;
+            }
+        }
+    }
+
+    & .MuiToolbar-root {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        min-height: 56px !important;
+        padding: 0 8px;
+    }
+
+    & .MuiFormControl-root.MuiTextField-root {
+        width: 30%;
+
+        & input {
+            text-align: center;
+        }
+
+        & .MuiInputBase-root.MuiOutlinedInput-root {
+            font-size: 0.75rem;
+            height: 40px;
+        }
+
+        &.input-class-number {
+            width: 80%;
+        }
+    }
+}
+
+.note-modal__table-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    & .btn-container {
+        & .btn-save {
+            box-shadow: unset;
+            background-color: "#47c14d";
+            min-width: unset;
+            width: 30px;
+            height: 30px;
+
+            &:hover {
+                background-color: "#47c14d";
+            }
+        }
+    }
+}
