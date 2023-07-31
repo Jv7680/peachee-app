@@ -7,6 +7,7 @@
 
     & .MuiTableContainer-root {
         flex: 1;
+        padding-right: 4px;
         border-radius: 4px;
 
         & .MuiTableHead-root {
@@ -21,6 +22,12 @@
         }
 
         & .MuiTableBody-root {
+            min-width: unset;
+
+            & .MuiTableRow-root {
+                min-width: unset;
+            }
+
             & .MuiTableRow-root:not(:last-child) {
                 box-shadow: 0px 1px 0px #b8d8ff;
             }
@@ -72,7 +79,7 @@
     }
 
     & .MuiFormControl-root.MuiTextField-root {
-        width: 30%;
+        width: calc((90% - 18px) /2);
 
         & input {
             text-align: center;
@@ -84,7 +91,7 @@
         }
 
         &.input-class-number {
-            width: 80%;
+            width: 90%;
         }
     }
 }

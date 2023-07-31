@@ -20,6 +20,7 @@ import EnhancedTableToolbar from '../../table/enhanced-table-toolbar/EnhancedTab
 import Swal from 'sweetalert2';
 
 import "./note-modal.scss";
+import "./table-responsive.scss";
 
 interface NoteModalProps extends CustomizedModalProps {
     calendarValue: dayjs.Dayjs;
@@ -478,7 +479,7 @@ export default function NoteModal(props: NoteModalProps) {
                                                         <CustomizedInput
                                                             name="moneyEachClass"
                                                             value={row.moneyEachClass}
-                                                            width={"80%"}
+                                                            width={"90%"}
                                                             height={40}
                                                             onChange={setClassNoteArrValue}
                                                             stt={row.stt}

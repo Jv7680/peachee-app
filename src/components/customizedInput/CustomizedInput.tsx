@@ -121,7 +121,7 @@ const useStyles = makeStyles({
         "& input": {
             width: "calc(100% - 22px)",
             outline: "none",
-            border: '1px solid #e1e1e1',
+            border: '1px solid #d0d0d0',
             color: '#242424',
             textAlign: 'center',
             background: 'transparent',
