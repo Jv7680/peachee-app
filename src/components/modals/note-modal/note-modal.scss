@@ -10,6 +10,10 @@
         padding-right: 4px;
         border-radius: 4px;
 
+        & .MuiTable-root {
+            min-width: unset;
+        }
+
         & .MuiTableHead-root {
             & .MuiTableRow-root {
                 background-color: rgb(133, 188, 255);
@@ -33,6 +37,7 @@
             }
 
             & .MuiTableCell-root.MuiTableCell-body {
+                min-width: unset;
                 border-bottom: unset;
                 font-size: 0.75rem;
             }
