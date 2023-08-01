@@ -71,8 +71,8 @@ const handleErrorResponeInterceptor = async (error: any) => {
 };
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080",
-    // baseURL: "https://peachee-app-server.vercel.app",
+    // baseURL: "http://localhost:8080",
+    baseURL: "https://peachee-app-server.vercel.app",
     timeout: 100000,
     headers: {
         "Content-Type": "application/json"
