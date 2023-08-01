@@ -20,6 +20,7 @@ export default function CustomizedModal(props: CustomizedModalProps) {
         <Modal
             open={props.isOpen}
             onClose={props.handleClose}
+            disableScrollLock
             disableAutoFocus
             className={"customized-modal-container " + (props.className || "")}
             aria-labelledby="customized-modal"
