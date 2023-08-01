@@ -1,0 +1,53 @@
+.number-input-container {
+    position: relative;
+    display: inline-flex;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+
+    & .MuiFormControl-root.MuiTextField-root {
+        text-align: center;
+        width: 100%;
+    }
+
+    & .MuiInputBase-root.MuiOutlinedInput-root {
+        border-top-right-radius: unset;
+        border-bottom-right-radius: unset;
+    }
+
+    & .btn-up,
+    & .btn-down {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #bfbfbf;
+        border-left: none;
+        color: #333333;
+        width: 22px;
+        cursor: pointer;
+        line-height: 20px;
+        text-align: center;
+        transition: all 0.3s ease-in-out 0s;
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        -moz-transition: all 0.3s ease-in-out 0s;
+        -ms-transition: all 0.3s ease-in-out 0s;
+        -o-transition: all 0.3s ease-in-out 0s;
+    }
+
+    & .btn-up {
+        border-bottom: none;
+        border-top-right-radius: 4px;
+    }
+
+    & .btn-down {
+        border-bottom-right-radius: 4px;
+    }
+
+    & .btn-up:hover,
+    & .btn-down:hover {
+        background-color: #ddd;
+        color: #6a9ddb;
+    }
+}

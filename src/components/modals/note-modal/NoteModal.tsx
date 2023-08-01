@@ -14,7 +14,7 @@ import RichTextInputComponent from '../../../utils/components/RichTextInputCompo
 import { formatNumberToVND, getComparator, isObjectEqual, stableSort } from '../../../utils/functions/functionUtils';
 import { HeadCell } from "../../../utils/interfaces/tableInterfaces";
 import CustomizedModal, { CustomizedModalProps } from "../../customized-modal/CustomizedModal";
-import CustomizedInput from '../../customizedInput/CustomizedInput';
+import NumberInput from '../../number-input/NumberInput';
 import EnhancedTableHead, { Order } from '../../table/enhanced-table-head/EnhancedTableHead';
 import EnhancedTableToolbar from '../../table/enhanced-table-toolbar/EnhancedTableToolbar';
 import Swal from 'sweetalert2';
@@ -261,7 +261,7 @@ export default function NoteModal(props: NoteModalProps) {
             // const newValue = JSON.stringify(value).replaceAll('"', "");
             const itemChange = newPrev[prev.findIndex(item => item.stt === sttChange)];
 
-            itemChange.className = event.target.value.trim();
+            itemChange.className = event.target.value;
 
             return newPrev;
         });
@@ -413,7 +413,7 @@ export default function NoteModal(props: NoteModalProps) {
                                                             onChange={(event) => { handleChangeClassName(row.stt, event) }}
                                                             variant="outlined"
                                                             size="small"
-                                                            className="input-class-number"
+                                                            className="input-class-name"
                                                             disabled={isBtnSaveLoading}
                                                         />
                                                     </TableCell>
@@ -469,7 +469,8 @@ export default function NoteModal(props: NoteModalProps) {
                                                         </LocalizationProvider>
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        <CustomizedInput
+                                                        <NumberInput
+                                                            className="input-money"
                                                             name="moneyEachClass"
                                                             value={row.moneyEachClass}
                                                             width={"90%"}

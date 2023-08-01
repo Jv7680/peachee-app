@@ -74,6 +74,7 @@ export default function Calender() {
     };
 
     const handleMonthChange = async (value: Dayjs) => {
+        setIsNoteModalOpen(false);
         await fecthHighlightedDays(value);
     };
 

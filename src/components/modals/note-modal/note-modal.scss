@@ -95,8 +95,12 @@
             height: 40px;
         }
 
-        &.input-class-number {
+        &.input-class-name {
             width: 90%;
+        }
+
+        &.input-money {
+            width: 100%;
         }
     }
 }

@@ -1,14 +1,17 @@
 
-import { makeStyles } from "@mui/styles";
-import { TableRowData } from "../modals/note-modal/NoteModal";
+import { TextField } from "@mui/material";
 import { formatNumberToVND } from "../../utils/functions/functionUtils";
+import { TableRowData } from "../modals/note-modal/NoteModal";
 
-interface CustomizedInputProps {
+import "./number-input.scss";
+
+interface NumberInputProps {
     value: number;
+    onChange: Function;
+    className?: string;
     defaultValue?: number;
     min?: number;
     max?: number;
-    onChange: Function;
     step?: number;
     disabled?: boolean;
     readOnly?: boolean;
@@ -21,14 +24,16 @@ interface CustomizedInputProps {
 
 interface ClassNoteArrValueItem extends TableRowData { };
 
-export default function CustomizedInput(props: CustomizedInputProps) {
-    const classes = useStyles();
+export default function NumberInput(props: NumberInputProps) {
 
     const handleChange = (event: any) => {
         const name: string = event.target.name || "moneyEachClass";
-        console.log(event.target.value);
-        const value = +(event.target.value.replaceAll("đ", "").replaceAll(" ", "").replaceAll(".", "").trim() || "0");
-        console.log(value);
+        const valueInput: string = event.target.value.replaceAll(/[^0-9]/img, "") || "0";
+
+        let newValue: number = 0;
+        if (valueInput.charAt(0) !== "0") {
+            newValue = +valueInput;
+        }
         const sttChange = props.stt || 1;
 
         props.onChange((prev: ClassNoteArrValueItem[]) => {
@@ -36,7 +41,7 @@ export default function CustomizedInput(props: CustomizedInputProps) {
             const itemChange = newPrev[prev.findIndex(item => item.stt === sttChange)];
 
             if (name === "moneyEachClass") {
-                itemChange[name] = value;
+                itemChange[name] = newValue;
                 return newPrev;
             }
         });
@@ -69,23 +74,22 @@ export default function CustomizedInput(props: CustomizedInputProps) {
 
             if (name === "moneyEachClass") {
                 itemChange[name] -= step;
+                if (itemChange[name] < 0) {
+                    itemChange[name] = 0
+                }
                 return newPrev;
             }
         });
     }
 
     return (
-        <div className={classes.root + " customized-input-container"} style={{ width: props.width || 62 }}>
-            <input
-                name={props.name || ""}
-                className="customized-input"
-                onChange={handleChange}
+        <div className={"number-input-container"} style={{ width: props.width || 62 }}>
+            <TextField
                 value={props.VND ? formatNumberToVND(props.value) : props.value}
-                type="text"
-                style={{
-                    // width: props.width || 40,
-                    height: props.height || 40
-                }}
+                onChange={handleChange}
+                variant="outlined"
+                size="small"
+                className={props.className}
                 disabled={props.disabled}
             />
             <div className="btn-controll">
@@ -107,58 +111,3 @@ export default function CustomizedInput(props: CustomizedInputProps) {
         </div>
     )
 };
-
-const useStyles = makeStyles({
-    root: {
-        position: 'relative',
-        display: "inline-flex",
-        borderRadius: 4,
-
-        "&:hover input": {
-            border: '1px solid',
-        },
-
-        "& input": {
-            width: "calc(100% - 22px)",
-            outline: "none",
-            border: '1px solid #d0d0d0',
-            color: '#242424',
-            textAlign: 'center',
-            background: 'transparent',
-            padding: 0,
-            borderTopLeftRadius: 4,
-            borderBottomLeftRadius: 4,
-        },
-        "& input:focus": {
-            border: "2px solid #4884cd"
-        },
-        "& .btn-up, & .btn-down": {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderBottom: '1px solid #e1e1e1',
-            borderRight: '1px solid #e1e1e1',
-            borderTop: '1px solid #e1e1e1',
-            color: '#333333',
-            cursor: 'pointer',
-            lineHeight: '20px',
-            textAlign: 'center',
-            WebkitTransition: 'all 0.3s ease-in-out 0s',
-            transition: 'all 0.3s ease-in-out 0s',
-            width: '22px',
-        },
-        "& .btn-up i, & .btn-down i": {
-            fontSize: 12,
-            height: 9,
-        },
-        "& .btn-up": {
-            borderBottom: 'none',
-        },
-        "& .btn-down": {
-
-        },
-        "& .btn-up:hover, & .btn-down:hover": {
-            background: '#ddd',
-        },
-    },
-});

@@ -1,5 +1,10 @@
 @media only screen and (max-width: 1000px) {
 
+    .customized-modal-container .MuiTableContainer-root {
+        // margin-top: 30px;
+        position: relative;
+    }
+
     /* Force table to not be like tables anymore */
     table,
     thead,
@@ -10,10 +15,26 @@
     }
 
     /* Hide table headers (but not display: none;, for accessibility) */
-    thead tr {
+    thead tr th {
         position: absolute;
         top: -9999px;
         left: -9999px;
+
+        // &:first-child {
+        //     top: 0px;
+        //     left: 0px;
+        // }
+    }
+
+    thead {
+        height: 0px;
+
+        & tr {
+            min-height: 0px;
+            padding: 0px;
+            margin: 0px;
+            border: none;
+        }
     }
 
     tr {
