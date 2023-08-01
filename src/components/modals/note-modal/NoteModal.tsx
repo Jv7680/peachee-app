@@ -46,12 +46,6 @@ const tabValues = {
 
 const headCells: HeadCell<TableRowData>[] = [
     {
-        id: "stt",
-        numeric: false,
-        disablePadding: true,
-        label: "STT",
-    },
-    {
         id: "className",
         numeric: false,
         disablePadding: true,
@@ -413,7 +407,6 @@ export default function NoteModal(props: NoteModalProps) {
                                                             disabled={isBtnSaveLoading}
                                                         />
                                                     </TableCell>
-                                                    <TableCell align="center">{index + 1}</TableCell>
                                                     <TableCell align="center">
                                                         <TextField
                                                             value={row.className}

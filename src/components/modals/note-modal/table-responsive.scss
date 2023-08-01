@@ -42,6 +42,13 @@
         justify-content: flex-end;
     }
 
+    td:first-child {
+        & .MuiButtonBase-root.MuiCheckbox-root {
+            position: relative;
+            right: -10px;
+        }
+    }
+
     td:last-child {
         border-bottom: unset;
     }
@@ -64,26 +71,26 @@
 
     tr {
         & td:nth-of-type(1):before {
-            content: "Check";
+            content: "Chọn";
+            left: unset;
+            right: 30px;
+            font-weight: normal;
+            width: 40px;
         }
 
         & td:nth-of-type(2):before {
-            content: "STT";
-        }
-
-        & td:nth-of-type(3):before {
             content: "Tên lớp";
         }
 
-        & td:nth-of-type(4):before {
+        & td:nth-of-type(3):before {
             content: "Điểm danh";
         }
 
-        & td:nth-of-type(5):before {
+        & td:nth-of-type(4):before {
             content: "Thời gian";
         }
 
-        & td:nth-of-type(6):before {
+        & td:nth-of-type(5):before {
             content: "Thành tiền";
         }
     }

@@ -18,9 +18,14 @@ export default function RichTextInputComponent(props: RichTextInputComponentProp
   const useStyles = makeStyles({
     root: {
       width: "100%",
+      flex: 1,
+      overflow: 'auto',
 
       "& .quill": {
         margin: "0 8px",
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
 
         "& .ql-toolbar": {
           borderTopLeftRadius: 6,
@@ -31,15 +36,16 @@ export default function RichTextInputComponent(props: RichTextInputComponentProp
           borderBottomRightRadius: 6,
           overflow: "hidden",
           border: props.readOnly ? "unset" : "1px solid #ccc",
-
+          flex: 1,
         },
         "& .ql-editor": {
           overflow: "auto",
           margin: '12px 5px 12px 15px',
           padding: "0 8px 0 0",
-          height: 410,
+          // - margin top and bottom (24px)
+          height: "calc(100% - 24px)",
           "@media only screen and (max-width: 510px)": {
-            height: 386,
+            // height: 386,
           }
         },
       },
